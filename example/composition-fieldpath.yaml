@@ -1,0 +1,39 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: function-dynamic-required
+spec:
+  compositeTypeRef:
+    apiVersion: example.crossplane.io/v1
+    kind: XR
+  mode: Pipeline
+  pipeline:
+  - step: run-the-template
+    functionRef:
+      name: function-dynamic-required
+    input:
+      apiVersion: dynamicrequired.fn.dev.devoba.de/v1beta1
+      kind: Input
+      spec:
+        requiredResources:
+          - requirementName: "test"
+            apiVersion:
+              type: "FieldPath"
+              fieldPath: "spec.apiVersion"
+            kind:
+              type: "FieldPath"
+              fieldPath: "spec.kind"
+  - step: go-templating
+    functionRef:
+      name: function-go-templating
+    input:
+      apiVersion: gotemplating.fn.crossplane.io/v1beta1
+      kind: GoTemplate
+      source: Inline
+      inline:
+        template: |
+          {{- $annotation := dict "metadata" (dict "annotations" (dict "gotemplating.fn.crossplane.io/composition-resource-name" $.observed.composite.resource.metadata.name)) }}
+          {{- $requiredResource := index ( index (index $.context "apiextensions.crossplane.io/required-resources") "test" ) 0 }} 
+          {{- $resource := merge $requiredResource $annotation }}
+          {{ toYaml $resource }}
+  

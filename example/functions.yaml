@@ -1,0 +1,21 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-dynamic-required
+  annotations:
+    # This tells crossplane render to connect to the function locally.
+    render.crossplane.io/runtime: Development
+spec:
+  # This is ignored when using the Development runtime.
+  package: function-dynamic-required
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-go-templating
+  annotations:
+    render.crossplane.io/runtime: "Development"
+    render.crossplane.io/runtime-development-target: "127.0.0.1:7443"
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.12.3

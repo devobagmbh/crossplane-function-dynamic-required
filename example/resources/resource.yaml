@@ -1,0 +1,4 @@
+apiVersion: sample/v1
+kind: Example
+metadata:
+  name: test
