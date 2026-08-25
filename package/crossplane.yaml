@@ -3,4 +3,15 @@ apiVersion: meta.pkg.crossplane.io/v1
 kind: Function
 metadata:
   name: function-dynamic-required
-spec: {}
+  annotations:
+    meta.crossplane.io/maintainer: devoba GmbH <info@devoba.de>
+    meta.crossplane.io/source: https://github.com/devobagmbh/crossplane-function-dynamic-required
+    meta.crossplane.io/license: Apache-2.0
+    meta.crossplane.io/description: Adding required resources with support for dynamic references.
+    meta.crossplane.io/readme: |
+      This composition function allows you to add required resources based on dynamic references on XR fields and
+      environments. For details, see the
+      [README](https://github.com/devobagmbh/crossplane-function-dynamic-required)
+spec:
+  capabilities:
+    - composition
